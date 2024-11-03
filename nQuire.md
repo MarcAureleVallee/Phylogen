@@ -1,7 +1,7 @@
 
 # Estimation de la ploidie basée sur l'analyse des fréquences alléliques
 
-## Indexer la séquences de références 
+## Indexer la séquence de référence
 ```bash
 TARGETS=/home/maval/projects/def-bourret/maval/HybSeqTest/refs
 cd $TARGETS
