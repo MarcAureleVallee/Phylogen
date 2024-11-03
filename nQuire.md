@@ -85,7 +85,7 @@ sbatch --mail-user=$EMAIL --array=1-$NFILES bwa-samtools.sbatch
 
 
 ## Exécuter nQuire sur les fichiers .BAM
-### Avant cette étape, un fichier texte nommé samples_list.txt contenant le noms des échantillons à analyser doit se trouver dans le réperoire /scratch/ploidie. Le fichier nQuire doit être placé dans le nQuire_path puis être exécutable (chmod +x nQuire)
+#Avant cette étape, un fichier texte nommé samples_list.txt contenant le noms des échantillons à analyser doit se trouver dans le réperoire /scratch/ploidie. Le fichier nQuire doit être placé dans le nQuire_path puis être exécutable (chmod +x nQuire)
 
 ```bash
 EMAIL="marcoaurelevallee@gmail.com"
