@@ -78,7 +78,7 @@ EOT
 ## Déterminer le nombre d'échantillons à analyser et soumettre la tache à SLURM
 
 ```bash
-NFILES=$(ls -1 $readspath/*_1.trimmed.fastq.gz | wc -l)
+NFILES=$(ls -1 $readspath/*$R1_files_extension | wc -l)
 
 sbatch --mail-user=$EMAIL --array=1-$NFILES bwa-samtools.sbatch
 ```
