@@ -113,7 +113,7 @@ nQuire_path="/home/maval/projects/def-bourret/maval/HybSeqTest/refs"
 while read -r sample; do
     echo "Processing sample: $sample"
     # Utiliser le chemin complet pour nQuire
-    "${nQuire_path}/nQuire" create -b "${data_folder}/ploidy/${sample}_filtered_uniq_sorted.bam" -o "$sample"
+    "${nQuire_path}/nQuire" create -b "${data_folder}/ploidy/${sample}.sorted.bam" -o "$sample"
     
     "${nQuire_path}/nQuire" denoise -o "${sample}_denoised" "${sample}.bin"
     
