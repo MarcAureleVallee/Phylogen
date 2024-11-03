@@ -1,6 +1,7 @@
-#Estimation de la ploidie via les fréquences alléliques
 
-##Indexer la séquences de références 
+# Estimation de la ploidie via les fréquences alléliques
+
+## Indexer la séquences de références 
 ```bash
 TARGETS=/home/maval/projects/def-bourret/maval/HybSeqTest/refs
 cd $TARGETS
@@ -9,7 +10,7 @@ module load bwa/0.7.18
 bwa index Malinae_Kew_probes_concat_exons_introns_HP.fas.fasta
 ```
 
-##Aligner les lectures sur les séquences de références 
+## Aligner les lectures sur les séquences de références 
 ```bash
 WD="/home/maval/scratch/ploidie"
 EMAIL="marcoaurelevallee@gmail.com"
@@ -83,8 +84,8 @@ sbatch --mail-user=$EMAIL --array=1-$NFILES bwa-samtools.sbatch
 ```
 
 
-##Exécuter nQuire sur les fichiers .BAM
-###Avant cette étape, un fichier texte nommé samples_list.txt contenant le noms des échantillons à analyser doit se trouver dans le réperoire /scratch/ploidie. Le fichier nQuire doit être placé dans le nQuire_path puis être exécutable (chmod +x nQuire)
+## Exécuter nQuire sur les fichiers .BAM
+### Avant cette étape, un fichier texte nommé samples_list.txt contenant le noms des échantillons à analyser doit se trouver dans le réperoire /scratch/ploidie. Le fichier nQuire doit être placé dans le nQuire_path puis être exécutable (chmod +x nQuire)
 
 ```bash
 EMAIL="marcoaurelevallee@gmail.com"
@@ -128,7 +129,7 @@ denoised_bin_list=$(find "${data_folder}/ploidy" -name "*_denoised.bin" -printf 
 "${nQuire_path}/nQuire" lrdmodel -t 12 $denoised_bin_list > "${data_folder}/ploidy/lrdmodel.tsv"
 EOT
 ```
-##Envoyer la tache à SLURM
+## Envoyer la tache à SLURM
 ```bash
 sbatch nQuire.sbatch
 ```
