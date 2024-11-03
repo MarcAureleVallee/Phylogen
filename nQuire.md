@@ -44,7 +44,7 @@ reference="/home/maval/projects/def-bourret/maval/HybSeqTest/refs/Malinae_Kew_pr
 module load bwa/0.7.18
 module load samtools
 
-# Boucle sur chaque paire de fichiers de reads
+# Boucle sur chaque paire de fichiers contenant les lectures filtrées
 for read1 in "\$readspath"/*$R1_files_extension; do
     # Identifier les fichiers R1 et R2
     read2="\${read1/$R1_files_extension/$R2_files_extension}"
