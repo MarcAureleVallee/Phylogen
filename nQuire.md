@@ -31,8 +31,8 @@ cat <<EOT > $SLURM_SCRIPT
 #SBATCH --mail-type=END
 #SBATCH --mail-user=$EMAIL
 #SBATCH --nodes=1
-#SBATCH --cpus-per-task=8
-#SBATCH --mem-per-cpu=2G
+#SBATCH --cpus-per-task=1
+#SBATCH --mem-per-cpu=64G
 #SBATCH --time=$TIME
 
 # Définir les chemins
