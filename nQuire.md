@@ -1,5 +1,5 @@
 
-# Estimation de la ploidie via les fréquences alléliques
+# Estimation de la ploidie basée sur l'analyse des fréquences alléliques
 
 ## Indexer la séquences de références 
 ```bash
