@@ -66,6 +66,9 @@ for read1 in "\$readspath"/*$R1_files_extension; do
         # Indexer le fichier .sorted.bam
         samtools index "\$bam_file"
 
+       # Supprimer le fichier .sam pour économiser de l'espace (optionnel)
+        rm "$sam_file"
+
         echo "Fichier .sorted.bam créé pour \$base_name"
     else
         echo "Aucun fichier R2 trouvé pour \$read1"
@@ -111,20 +114,20 @@ nQuire_path="/home/maval/projects/def-bourret/maval/HybSeqTest/refs"
 while read -r sample; do
     echo "Processing sample: $sample"
     # Utiliser le chemin complet pour nQuire
-    "${nQuire_path}/nQuire" create -b "${data_folder}/ploidy/${sample}.sorted.bam" -o "$sample"
+    "${nQuire_path}/nQuire" create -b "${data_folder}/ploidie/${sample}.sorted.bam" -o "$sample"
     
     "${nQuire_path}/nQuire" denoise -o "${sample}_denoised" "${sample}.bin"
     
-    # Déplacement des fichiers .bin vers le dossier ploidy
-    mv "${sample}.bin" "${data_folder}/ploidy/"
-    mv "${sample}_denoised.bin" "${data_folder}/ploidy/"
+    # Déplacement des fichiers .bin vers le dossier ploidie
+    mv "${sample}.bin" "${data_folder}/ploidie/"
+    mv "${sample}_denoised.bin" "${data_folder}/ploidie/"
     
     echo "Finished processing $sample"
 done < "$samples_file"
 
 # Modèle de ploïdie (à exécuter après toutes les étapes ci-dessus)
-denoised_bin_list=$(find "${data_folder}/ploidy" -name "*_denoised.bin" -printf "%p ")
-"${nQuire_path}/nQuire" lrdmodel -t 12 $denoised_bin_list > "${data_folder}/ploidy/lrdmodel.tsv"
+denoised_bin_list=$(find "${data_folder}/ploidie" -name "*_denoised.bin" -printf "%p ")
+"${nQuire_path}/nQuire" lrdmodel -t 12 $denoised_bin_list > "${data_folder}/ploidie/lrdmodel.tsv"
 EOT
 ```
 ## Envoyer la tache à SLURM
