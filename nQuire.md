@@ -83,10 +83,17 @@ NFILES=$(ls -1 $readspath/*$R1_files_extension | wc -l)
 
 sbatch --mail-user=$EMAIL --array=1-$NFILES bwa-samtools.sbatch
 ```
+## Télécharger et activer nQuire
+Référez vous [ici](https://github.com/clwgg/nQuire/blob/master/README.org) pour plus d'infos.
 
-
+```bash
+git clone --recursive https://github.com/clwgg/nQuire
+cd nQuire
+make submodules
+make
+```
 ## Exécuter nQuire sur les fichiers .BAM
-Avant cette étape, un fichier texte nommé samples_list.txt contenant le noms des échantillons à analyser doit se trouver dans le réperoire contenant les fichiers .bam. Le fichier nQuire doit être placé dans le nQuire_path puis être exécutable (`chmod +x nQuire`)
+Assurez vous que le mquire_path correspond à l'emplacement où nQuire a été téléchargé.
 
 ```bash
 EMAIL="marcoaurelevallee@gmail.com"
@@ -107,7 +114,7 @@ cat <<"EOT" > $SLURM_SCRIPT
 
 data_folder="/home/maval/scratch/ploidie"  
 samples_file="/home/maval/scratch/ploidie/Samples_list.txt"  
-nQuire_path="/home/maval/projects/def-bourret/maval/HybSeqTest/refs"
+nQuire_path="/home/maval/projects/def-bourret/maval"
 
 
 # Lecture du fichier de liste des échantillons
