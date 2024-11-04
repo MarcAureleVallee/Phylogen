@@ -2,12 +2,13 @@
 # Estimation de la ploidie basée sur l'analyse des fréquences alléliques
 
 ## Indexer la séquence de référence
+Ici, la référence utilisée est celle correspondant aux sondes Malineae481. Il faut changer la référence dépendemment des sondes utilisées lors du laboratoire (angiosperm353, Compositae-1061, etc.)
 ```bash
 TARGETS=/home/maval/projects/def-bourret/maval/HybSeqTest/refs
 cd $TARGETS
 
 module load bwa/0.7.18
-bwa index Malinae_Kew_probes_concat_exons_introns_HP.fas.fasta
+bwa index Malinae_Kew_probes_concat_exons_introns_HP.fasta
 ```
 
 ## Aligner les lectures sur les séquences de références 
