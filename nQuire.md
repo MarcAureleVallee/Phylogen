@@ -16,7 +16,6 @@ bwa index Malinae_Kew_probes_concat_exons_introns_HP.fasta
 WD="/home/maval/scratch/ploidie"
 EMAIL="marcoaurelevallee@gmail.com"
 TIME="0-12:00:00"
-SLURM_SCRIPT="bwa-samtools.sbatch"
 readspath="/home/maval/projects/def-bourret/maval/HybSeqTest/reads/trim/TEST"  
 R1_files_extension=._1.trimmed.fastq.gz
 R2_files_extension=._2.trimmed.fastq.gz
@@ -26,7 +25,7 @@ mkdir $WD
 cd $WD
 
 # Créer le fichier de soumission SLURM
-cat <<EOT > $SLURM_SCRIPT
+cat <<EOT > bwa-samtools.sbatch
 #!/bin/bash
 #SBATCH --job-name=bwa-samtools
 #SBATCH --output=bwa-samtools-%j.out
