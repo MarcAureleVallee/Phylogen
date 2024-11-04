@@ -94,7 +94,7 @@ TIME="0-12:00:00"
 SLURM_SCRIPT="nQuire.sbatch"
 
 
-cat <<EOT > $SLURM_SCRIPT
+cat <<"EOT" > $SLURM_SCRIPT
 #!/bin/bash
 #SBATCH --job-name=nQuire
 #SBATCH --output=bwa-nQuire-%j.out
@@ -114,20 +114,20 @@ nQuire_path="/home/maval/projects/def-bourret/maval/HybSeqTest/refs"
 while read -r sample; do
     echo "Processing sample: $sample"
     # Utiliser le chemin complet pour nQuire
-    "$nQuire_path/nQuire" create -b "$data_folder/ploidie/${sample}.sorted.bam" -o "$sample"
+    "${nQuire_path}/nQuire" create -b "${data_folder}/ploidie/${sample}.sorted.bam" -o "$sample"
     
-    "$nQuire_path/nQuire" denoise -o "${sample}_denoised" "${sample}.bin"
+    "${nQuire_path}/nQuire" denoise -o "${sample}_denoised" "${sample}.bin"
     
     # Déplacement des fichiers .bin vers le dossier ploidie
-    mv "${sample}.bin" "$data_folder/ploidie/"
-    mv "${sample}_denoised.bin" "$data_folder/ploidie/"
+    mv "${sample}.bin" "${data_folder}/ploidie/"
+    mv "${sample}_denoised.bin" "${data_folder}/ploidie/"
     
     echo "Finished processing $sample"
 done < "$samples_file"
 
 # Modèle de ploïdie (à exécuter après toutes les étapes ci-dessus)
-denoised_bin_list=$(find "$data_folder/ploidie" -name "*_denoised.bin" -printf "%p ")
-"$nQuire_path/nQuire" lrdmodel -t 12 $denoised_bin_list > "$data_folder/ploidie/lrdmodel.tsv"
+denoised_bin_list=$(find "${data_folder}/ploidie" -name "*_denoised.bin" -printf "%p ")
+"${nQuire_path}/nQuire" lrdmodel -t 12 $denoised_bin_list > "${data_folder}/ploidie/lrdmodel.tsv"
 EOT
 ```
 ## Envoyer la tache à SLURM
