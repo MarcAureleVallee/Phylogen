@@ -94,7 +94,7 @@ make submodules
 make
 ```
 ## Exécuter nQuire sur les fichiers .BAM
-Assurez vous que le mquire_path correspond à l'emplacement où nQuire a été téléchargé.
+Assurez vous que le nquire_path correspond à l'emplacement où nQuire a été téléchargé.
 
 ```bash
 cat <<"EOT" > nQuire.sbatch
