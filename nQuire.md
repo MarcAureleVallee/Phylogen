@@ -66,9 +66,6 @@ for read1 in "\$readspath"/*$R1_files_extension; do
         # Indexer le fichier .sorted.bam
         samtools index "\$bam_file"
 
-        # Supprimer le fichier .sam pour économiser de l'espace (optionnel)
-        rm "\$sam_file"
-
         echo "Fichier .sorted.bam créé pour \$base_name"
     else
         echo "Aucun fichier R2 trouvé pour \$read1"
