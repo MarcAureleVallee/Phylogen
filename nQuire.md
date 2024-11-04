@@ -94,7 +94,7 @@ TIME="0-12:00:00"
 SLURM_SCRIPT="nQuire.sbatch"
 
 
-cat <<EOT > $SLURM_SCRIPT
+cat <<'EOT' > $SLURM_SCRIPT
 #!/bin/bash
 #SBATCH --job-name=nQuire
 #SBATCH --output=bwa-nQuire-%j.out
