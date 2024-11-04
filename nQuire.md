@@ -22,7 +22,8 @@ R1_files_extension=._1.trimmed.fastq.gz
 R2_files_extension=._2.trimmed.fastq.gz
 
 # Aller dans le répertoire de travail
-cd "$WD"
+mkdir $WD
+cd $WD
 
 # Créer le fichier de soumission SLURM
 cat <<EOT > $SLURM_SCRIPT
