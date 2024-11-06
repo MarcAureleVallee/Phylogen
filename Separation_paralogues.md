@@ -1,4 +1,4 @@
-# Créer des alignemnts orthologues avec ParalogWizard
+# Créer des alignements orthologues avec ParalogWizard
 Cette étape est effectuée sur le cluster Metacentrum
 
 ## S'assurer que tous les fichiers dédupliqués et filtrés sont dans le dossier 10deduplicated reads
