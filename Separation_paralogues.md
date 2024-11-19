@@ -126,7 +126,7 @@ for file in *.fasta; do
     mv "$file" "${file%.fasta}.FNA"
 done
 
-##Ajouter single_hit a la fin des noms de séquence pour que mes données soient compatibles avec le code d'ELC
+##Ajouter single_hit a la fin des noms de séquence pour que mes données soient compatibles avec le code d'ELB
 
 for FILE in /scratch/mvallee/TP_session/Assem_avec_para/exon/*.FNA; do
     sed -i 's/^>\(.*\)/>\1 single_hit/' "$FILE"
