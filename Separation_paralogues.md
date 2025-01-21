@@ -537,7 +537,7 @@ for a in $ALIGNS_PATH/*.fasta
   echo "$ALIGNS_PATH/taper/$BASENAME.fasta" >> align.list
   done
 ```
-## créer un batchfile pour exécuter TAPER sur cette listels
+## créer un batchfile pour exécuter TAPER sur cette liste
 ```bash
 echo '#!/bin/bash' > TAPER.sbatch
 echo "#SBATCH --job-name=TAPER
