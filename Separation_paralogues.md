@@ -707,7 +707,7 @@ sed -i 's/.fasta//g' concat.partitions
 
 Le flitrage a bien fonctionnée, c'Est beaucoup mieux!!
 
-# Phasage des allèles par polarisation itératice avec IterPol
+# Phasage des allèles par polarisation itérative avec IterPol
 ```bash
 SRC=/opt
 WD=/scratch/mvallee/TP_session/Assem_avec_para/remap/seqs_iupac
@@ -728,7 +728,7 @@ sbatch --job-name=IterPol \
     --raxml_path \"$SRC/RAxML-8.2.12/raxmlHPC-PTHREADS-SSE3\" > output.log 2>&1"
 ```
 
-## Analyse de Maximum de vraisemblance dans RAxML avec alignemnts polarisé
+## Analyse de Maximum de vraisemblance dans RAxML avec alignements polarisés
 ```bash
 SRC_RAXML=/opt/RAxML-8.2.12
 WD=/scratch/mvallee/TP_session/Assem_avec_para/remap/seqs_iupac/iterpol/raxml
