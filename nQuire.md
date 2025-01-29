@@ -1,5 +1,5 @@
 
-# Estimation de la ploidie basée sur l'analyse des fréquences alléliques
+# Estimation de la ploidie basée sur l'analyse de données Hyb-Seq
 
 ## Indexer la séquence de référence
 Ici, la référence utilisée est celle correspondant aux sondes Malineae481. Il faut changer la référence dépendemment des sondes utilisées lors du laboratoire (angiosperm353, Compositae-1061, etc.)
