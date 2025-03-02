@@ -201,3 +201,4 @@ Soumettre la tâche à slurm
 ```bash
 sbatch nQuire.sbatch
 ```
+Le résultat de cette analyse se trouve dans le fichier .tsv situé ici :/scratch/$USER/radCrat/3rad_2024-06-04_plate1/merged_refmapping
