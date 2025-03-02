@@ -137,3 +137,67 @@ EOT
 sbatch nQuire.sbatch
 ```
 Le résulat de ce code sera un fichier .tsv nommé `lrdmodel.tsv`. Copier le contenu de ce fichier dans excel et référez vous à [Weiß et al. (2018)](https://bmcbioinformatics.biomedcentral.com/articles/10.1186/s12859-018-2128-z) pour interpréter les résultats.
+
+# Estimation de la ploidie sur les données 3RAD
+Avant d'exécuter ce code, les échantillons doivent être démiltiplexés et mapper sur un génome de référence à l'aide de Ipyrad.
+
+## Créer un fichier .txt contenant le nom des échantillons à analyser
+```bash
+cd /scratch/$USER/radCrat/*/merged_refmapping
+ls *.bam | sed 's/-.*//' > Samples_list.txt
+```
+
+## Téléchargement et activation de nQuire
+```bash
+mkdir/scratch/$USER/radCrat/ploidie
+cd /scratch/$USER/radCrat/ploidie
+
+git clone --recursive https://github.com/clwgg/nQuire
+cd nQuire
+make submodules
+make
+```
+
+## Lancer nQuire sur les fichiers .bam
+```bash
+cat <<"EOT" > nQuire.sbatch
+#!/bin/bash
+#SBATCH --job-name=nQuire
+#SBATCH --output=nQuire-%j.out
+#SBATCH --mail-type=END
+#SBATCH --mail-user=marcoaurelevallee@gmail.com
+#SBATCH --nodes=1
+#SBATCH --cpus-per-task=8
+#SBATCH --mem-per-cpu=2G
+#SBATCH --time=0-12:00:00
+
+data_folder="/scratch/mvallee/radCrat/3rad_2024-06-04_plate1/merged_refmapping"  
+samples_file="/scratch/$USER/radCrat/3rad_2024-06-04_plate1/merged_refmapping/Samples_list.txt"  
+nQuire_path="/scratch/$USER/radCrat/ploidie/nQuire"
+
+
+# Lecture du fichier de liste des échantillons
+while read -r sample; do
+    echo "Processing sample: $sample"
+    # Utiliser le chemin complet pour nQuire
+    "${nQuire_path}/nQuire" create -b "${data_folder}/${sample}-mapped-sorted.bam" -o "$sample"
+    
+    "${nQuire_path}/nQuire" denoise -o "${sample}_denoised" "${sample}.bin"
+    
+    # Déplacement des fichiers .bin vers le dossier ploidie
+    mv "${sample}.bin" "${data_folder}"
+    mv "${sample}_denoised.bin" "${data_folder}"
+    
+    echo "Finished processing $sample"
+done < "$samples_file"
+
+# Modèle de ploïdie (à exécuter après toutes les étapes ci-dessus)
+denoised_bin_list=$(find "${data_folder}" -name "*_denoised.bin" -printf "%p ")
+"${nQuire_path}/nQuire" lrdmodel -t 12 $denoised_bin_list > "${data_folder}/lrdmodel.tsv"
+EOT
+```
+
+Soumettre la tâche à slurm
+```bash
+sbatch nQuire.sbatch
+```
