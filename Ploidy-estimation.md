@@ -149,7 +149,7 @@ ls *.bam | sed 's/-.*//' > Samples_list.txt
 
 ## Téléchargement et activation de nQuire
 ```bash
-mkdir/scratch/$USER/radCrat/ploidie
+mkdir /scratch/$USER/radCrat/ploidie
 cd /scratch/$USER/radCrat/ploidie
 
 git clone --recursive https://github.com/clwgg/nQuire
