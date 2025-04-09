@@ -1,5 +1,5 @@
 # Extraction des données chloroplastiques à partir de données Hyb-Seq
-Ce code permet d'extraire et d'assembler les séquences chloroplastiques à partir de données Hyb-Seq. Les lectures doivent avoir été filtrées au préalable.
+Ce code permet d'extraire et d'assembler sur un génome de références des séquences chloroplastiques issues de données Hyb-Seq. Les lectures doivent avoir été filtrées au préalable.
 ## Assembler les lecures filtrées avec SPAdes
 ```bash
 WD=/scratch/mvallee/TP_session/cp
