@@ -6,7 +6,7 @@ WD=/scratch/mvallee/TP_session/cp
 READS=/scratch/mvallee/TP_session/data_trim
 EMAIL=marcoaurelevallee@gmail.com
 TIME="0-12:00:00"
-MEM_PER_CPU=2G
+MEM_PER_CPU=8G
 
 
 mkdir $WD
@@ -30,7 +30,7 @@ READ1=\$(ls $READS/*trim_R1.fastq.gz | head -n \$SLURM_ARRAY_TASK_ID | tail -n 1
 NAME=\$(basename \$READ1 _trim_R1.fastq.gz)
 
 # Lancer l'assemblage SPAdes avec les fichiers de lecture R1 et R2
-spades.py -1 $READS/\${NAME}_trim_R1.fastq.gz -2 $READS/\${NAME}_trim_R2.fastq.gz -o $WD/\${NAME}" >> spades.sbatch
+spades.py --threads 8 --memory 60 -1 $READS/\${NAME}_trim_R1.fastq.gz -2 $READS/\${NAME}_trim_R2.fastq.gz -o $WD/\${NAME}" >> spades.sbatch
 ```
 
 ## Déterminer le nombre d'échantillons à analyser et envoyer la tache à slurm
