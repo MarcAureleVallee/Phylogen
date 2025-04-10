@@ -43,7 +43,7 @@ sbatch --mail-user=$EMAIL --array=1-$NFILES spades.sbatch
 ```
 # Aligner les scaffolds sur un génome de référence avec BLASTn
 
-Les génomes de références peuvent se trouver sur le site du [NCBI] (https://www.ncbi.nlm.nih.gov/). Vous pouvez effectuer une recherche sur le site pour trouver un génome le plus près possible de votre groupe d'intéret. Ici, nous allons utiliser le génome chloroplastique de _Crataegus hupehensis_. 
+Les génomes de références peuvent se trouver sur le site du  [NCBI](https://www.ncbi.nlm.nih.gov/). Vous pouvez effectuer une recherche sur le site pour trouver un génome le plus près possible de votre groupe d'intéret. Ici, nous allons utiliser le génome chloroplastique de _Crataegus hupehensis_. 
 
 
 ## Indexer le génome de référence
