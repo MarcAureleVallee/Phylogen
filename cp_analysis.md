@@ -41,3 +41,66 @@ NFILES=$(ls -1 $READS/*trim_R1.fastq.gz | wc -l)
 conda activate hybpiper
 sbatch --mail-user=$EMAIL --array=1-$NFILES spades.sbatch
 ```
+# Aligner les scaffolds sur un génome de référence avec BLASTn
+
+Les génomes de références peuvent se trouver sur le site du [NCBI] (https://www.ncbi.nlm.nih.gov/). Vous pouvez effectuer une recherche sur le site pour trouver un génome le plus près possible de votre groupe d'intéret. Ici, nous allons utiliser le génome chloroplastique de _Crataegus hupehensis_. 
+
+
+## Indexer le génome de référence
+Le génome de référence choisi doit avoir été au préalablement téléchargé à partir de NBCI puis envoyé dans votre environnement de travail au format .fasta. Afin d'améliorer l'assemblage, une copie de la région inversé a été supprimé dans Genious.
+```bash
+# Créer le dossier pour le génome de référence
+mkdir /scratch/mvallee/TP_session/cp/ref_genome
+cd /scratch/mvallee/TP_session/cp/ref_genome
+
+# Indexer le génome de référence
+makeblastdb -in c_hupehensis_CP-REF_whitout_IRa.fasta -dbtype nucl -out C_hupensis_cp_ref
+```
+## Écrire le code d'assemblage avec BLASTn
+```bash
+INPUT_DIR=/scratch/mvallee/TP_session/cp
+OUT_DIR=/scratch/mvallee/TP_session/cp/blast
+GENOME_REF=/scratch/mvallee/TP_session/cp/ref_genome/
+EMAIL=marcoaurelevallee@gmail.com
+TIME="0-12:00:00"
+CPU=8
+MEM_PER_CPU=2G
+
+mkdir -p $OUT_DIR
+cd $OUT_DIR
+
+# Écriture du fichier SLURM
+cat << EOF > blast.sbatch
+#!/bin/bash
+#SBATCH --job-name=blast
+#SBATCH --output=blast_%A_%a.out
+#SBATCH --mail-type=END
+#SBATCH --mail-user=$EMAIL
+#SBATCH --nodes=1
+#SBATCH --cpus-per-task=$CPU
+#SBATCH --mem-per-cpu=$MEM_PER_CPU
+#SBATCH --time=$TIME
+
+# Liste des dossiers
+SAMPLE_DIR=\$(ls -1d $INPUT_DIR/* | head -n \${SLURM_ARRAY_TASK_ID} | tail -n 1)
+SAMPLE_NAME=\$(basename \$SAMPLE_DIR)
+QUERY=\$SAMPLE_DIR/scaffolds.fasta
+OUTPUT=$OUT_DIR/\${SAMPLE_NAME}_blast.txt
+
+# BLAST si le fichier existe
+if [[ -f \$QUERY ]]; then
+    echo "Traitement de \$SAMPLE_NAME ..."
+    blastn -query \$QUERY -db $GENOME_REF -out \$OUTPUT \\
+           -evalue 1e-10 -outfmt 6 -num_threads $CPU
+else
+    echo "Fichier manquant pour \$SAMPLE_NAME : \$QUERY"
+fi
+EOF
+```
+## Soumettre la tâche à SLURM
+```bash
+NFILES=$(ls -1 $INPUT_DIR/Cra* | wc -l)
+
+conda activate hybpiper
+sbatch --mail-user=$EMAIL --array=1-$NFILES blast.sbatch
+```
