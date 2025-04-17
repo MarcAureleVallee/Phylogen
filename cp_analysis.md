@@ -104,3 +104,49 @@ NFILES=$(find $INPUT_DIR -maxdepth 1 -type d | wc -l)
 conda activate hybpiper
 sbatch --mail-user=$EMAIL --array=1-$NFILES blast.sbatch
 ```
+## Extraire les séquences trouvées par BLASTn
+```bash
+base_dir="/scratch/mvallee/TP_session/cp"
+blast_dir="${base_dir}/blast"
+output_dir="${base_dir}/chloroplast_seqs"
+
+mkdir -p "$output_dir"
+cd "$output_dir"
+
+cat << EOF > seqtk.sbatch
+#!/bin/bash
+#SBATCH --job-name=chloroplast_extraction
+#SBATCH --output=${output_dir}/seqtk.log
+#SBATCH --time=02:00:00
+#SBATCH --mem=2G
+#SBATCH --cpus-per-task=1
+
+base_dir=${base_dir}
+blast_dir=\${base_dir}/blast
+output_dir=\${base_dir}/chloroplast_seqs
+
+mkdir -p "\$output_dir"
+
+for blast_file in \${blast_dir}/*_blast.txt; do
+    sample_name=\$(basename "\$blast_file" _blast.txt)
+    sample_dir="\${base_dir}/\${sample_name}"
+    fasta_file="\${sample_dir}/scaffolds.fasta"
+
+    if [[ ! -f "\$fasta_file" ]]; then
+        echo "FASTA manquant pour \$sample_name : \$fasta_file"
+        continue
+    fi
+
+    cut -f1 "\$blast_file" | sort | uniq > "\${output_dir}/\${sample_name}_contig_ids.txt"
+    seqtk subseq "\$fasta_file" "\${output_dir}/\${sample_name}_contig_ids.txt" > "\${output_dir}/\${sample_name}_chloroplast.fasta"
+
+    echo "Séquences extraites pour \$sample_name"
+done
+EOF
+```
+
+Lancer la tache 
+```bash
+NFILES=$(ls -1 $blast_dir/*txt | wc -l)
+sbatch --mail-user=$EMAIL --array=1-$NFILES seqtk.sbatch
+```
