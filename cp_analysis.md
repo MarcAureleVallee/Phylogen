@@ -60,7 +60,7 @@ makeblastdb -in c_hupehensis_CP-REF_whitout_IRa.fasta -dbtype nucl -out C_hupens
 ```bash
 INPUT_DIR=/scratch/mvallee/TP_session/cp
 OUT_DIR=/scratch/mvallee/TP_session/cp/blast
-GENOME_REF=/scratch/mvallee/TP_session/cp/ref_genome/
+GENOME_REF=/scratch/mvallee/TP_session/cp/ref_genome/C_hupensis_cp_ref
 EMAIL=marcoaurelevallee@gmail.com
 TIME="0-12:00:00"
 CPU=8
