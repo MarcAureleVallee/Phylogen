@@ -99,7 +99,7 @@ EOF
 ```
 ## Soumettre la tâche à SLURM
 ```bash
-NFILES=$(find $INPUT_DIR -maxdepth 1 -type d -name 'Cra*' | wc -l)
+NFILES=$(find $INPUT_DIR -maxdepth 1 -type d | wc -l)
 
 conda activate hybpiper
 sbatch --mail-user=$EMAIL --array=1-$NFILES blast.sbatch
