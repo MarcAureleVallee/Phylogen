@@ -248,7 +248,7 @@ cat << EOF > mafft.sbatch
 #SBATCH --time=$TIME
 
 
-mafft --auto $SEQUENCES > aligned_sequences.fasta
+mafft --thread 4 --auto $SEQUENCES > aligned_sequences.fasta
 EOF
 
 sbatch mafft.sbatch
