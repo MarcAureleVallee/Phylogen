@@ -97,7 +97,7 @@ else
 fi
 EOF
 ```
-## Soumettre la tâche à SLURM
+Soumettre la tâche à SLURM
 ```bash
 NFILES=$(find $INPUT_DIR -maxdepth 1 -type d | wc -l)
 
@@ -145,8 +145,56 @@ done
 EOF
 ```
 
-Lancer la tache 
+Soumettre la tâche à SLURM
 ```bash
 NFILES=$(ls -1 $blast_dir/*txt | wc -l)
 sbatch --mail-user=$EMAIL --array=1-$NFILES seqtk.sbatch
+```
+# Assembler les scaffolds avec RagTag
+RagTag est un logiciel permettant d'assembler des génomes par scaffolding. Pour plus d'infos, voir [ici](https://github.com/malonge/RagTag).
+```bash
+WD=/scratch/mvallee/TP_session/cp/ragtag
+SCAFFOLDS_DIR=/scratch/mvallee/TP_session/cp/chloroplast_seqs
+REF_GENOME=/scratch/mvallee/TP_session/cp/ref_genome/c_hupehensis_CP-REF_whitout_IRa.fasta
+EMAIL=marcoaurelevallee@gmail.com
+TIME="0-12:00:00"
+MEM_PER_CPU=8G
+CPU=4
+
+mkdir $WD
+cd $WD
+
+cat << EOF > ragtag.sbatch
+#!/bin/bash
+#SBATCH --job-name=ragtag
+#SBATCH --output=ragtag_%A_%a.out
+#SBATCH --mail-type=END
+#SBATCH --mail-user=$EMAIL
+#SBATCH --cpus-per-task=$CPU
+#SBATCH --mem-per-cpu=$MEM_PER_CPU
+#SBATCH --time=$TIME
+
+scaffolds_dir=$SCAFFOLDS_DIR
+ref_genome=$REF_GENOME
+
+# Obtenir le fichier correspondant à l'index du tableau SLURM
+sample=\$(ls -1d \$scaffolds_dir/*_chloroplast.fasta | sed -n "\${SLURM_ARRAY_TASK_ID}p")
+
+# Créer un répertoire de sortie spécifique à l'échantillon
+basename=\$(basename \$sample _chloroplast.fasta)
+mkdir -p \$basename
+cd \$basename
+
+# Lancer RagTag
+ragtag.py scaffold \$ref_genome \$sample
+
+echo "Assemblage terminé pour \$sample"
+EOF
+```
+Soumettre la tâche à SLURM
+```bash
+NFILES=$(ls -1 $SCAFFOLDS_DIR/*.fasta | wc -l)
+
+conda activate ragtag
+sbatch --mail-user=$EMAIL --array=1-$NFILES ragtag.sbatch
 ```
