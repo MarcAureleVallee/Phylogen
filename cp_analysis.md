@@ -198,3 +198,58 @@ NFILES=$(ls -1 $SCAFFOLDS_DIR/*.fasta | wc -l)
 conda activate ragtag
 sbatch --mail-user=$EMAIL --array=1-$NFILES ragtag.sbatch
 ```
+## Récupérer les séquences produites par RagTag
+```bash
+WD="/scratch/mvallee/TP_session/cp/align"
+mkdir -p "$WD"
+BASE_DIR="/scratch/mvallee/TP_session/cp/ragtag"
+
+# Fichier de sortie
+OUTPUT="$WD/sequences.fasta"
+
+# Boucle sur tous les dossiers d’échantillons
+for SAMPLE_DIR in "$BASE_DIR"/*/; do
+    FASTA="$SAMPLE_DIR/ragtag_output/ragtag.scaffold.fasta"
+    
+    # Vérifie que le fichier FASTA existe
+    if [[ -f "$FASTA" ]]; then
+        # Récupère le nom de l’échantillon depuis le dossier
+        SAMPLE_NAME=$(basename "$SAMPLE_DIR")
+
+        # Extrait la séquence désirée
+        awk -v name="$SAMPLE_NAME" '
+            BEGIN { capture=0 }
+            /^>c_hupehensis_CP-REF_whitout_IRa_RagTag/ { print ">"name; capture=1; next }
+            /^>/ { capture=0 }
+            capture { print }
+        ' "$FASTA" >> "$OUTPUT"
+    else
+        echo "Fichier manquant pour $SAMPLE_DIR" >&2
+    fi
+done
+```
+
+## Aligner les séquences avec MAFFT
+
+```bash
+TIME="0-2:00:00"
+SEQUENCES=/scratch/mvallee/TP_session/cp/align/sequences.fasta
+
+cd $WD
+
+cat << EOF > mafft.sbatch
+#!/bin/bash
+#SBATCH --job-name=mafft
+#SBATCH --output=mafft.out
+#SBATCH --mail-type=end
+#SBATCH --nodes=1
+#SBATCH --cpus-per-task=1
+#SBATCH --mem-per-cpu=16G
+#SBATCH --time=$TIME
+
+
+mafft --auto $SEQUENCES > aligned_sequences.fasta
+EOF
+
+sbatch mafft.sbatch
+```
