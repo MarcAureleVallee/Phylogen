@@ -232,7 +232,7 @@ done
 ## Aligner les séquences avec MAFFT
 
 ```bash
-TIME="0-2:00:00"
+TIME="0-12:00:00"
 SEQUENCES=/scratch/mvallee/TP_session/cp/align/sequences.fasta
 
 cd $WD
@@ -243,8 +243,8 @@ cat << EOF > mafft.sbatch
 #SBATCH --output=mafft.out
 #SBATCH --mail-type=end
 #SBATCH --nodes=1
-#SBATCH --cpus-per-task=1
-#SBATCH --mem-per-cpu=16G
+#SBATCH --cpus-per-task=4
+#SBATCH --mem-per-cpu=8G
 #SBATCH --time=$TIME
 
 
