@@ -186,7 +186,7 @@ mkdir -p \$basename
 cd \$basename
 
 # Lancer RagTag
-ragtag.py scaffold \$ref_genome \$sample
+ragtag.py scaffold -t $CPU \$ref_genome \$sample
 
 echo "Assemblage terminé pour \$sample"
 EOF
