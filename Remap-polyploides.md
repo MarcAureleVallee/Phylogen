@@ -19,7 +19,7 @@ Crataegus-calpodendron_Cr157MBG 4
 Crataegus-calpodendron_Cr183TAD 2
 etc...
 ```
-Ce fichier doit être enregistré dans le répertoire de travail et nommé `Samples-ploidy.txt`. 
+Ce fichier doit être enregistré dans le répertoire de travail et être nommé `Samples-ploidy.txt`. 
 ```bash 
 ## Ajuster les variables ci-dessous de façon appropriée
 SRC=/opt
