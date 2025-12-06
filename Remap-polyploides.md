@@ -1,6 +1,7 @@
-# Ajout de variant dans les séquences consensus
+# Ajout de variant dans les séquences consensus en fonction de la ploïdie
 
-Ce code permet d'ajouter des variants sous forme de code IUPAC dans les séquences consensus tout en prenant en considération la ploidie de l'échantillon. Avant de rouler ce code, il est nécessaire d'avoir des données de ploidie associées à chaque échantillons dans un fichier .txt. sous ce format Nom-échantillon ploidie.
+Ce code permet d’ajouter des variants sous forme de codes IUPAC dans les séquences consensus, tout en tenant compte de la ploïdie de l’échantillon. Avant d’exécuter ce code, il est nécessaire de disposer d’un fichier `.txt` contenant la ploïdie de chaque échantillon, sous le format : `Nom-échantillon ploïdie`
+
 Par exemple:
 ```bash
 Crataegus-aemula_ELB367 4
@@ -16,7 +17,9 @@ Crataegus-brachyacantha_Cr449A 2
 Crataegus-brainerdii_ELB336 4
 Crataegus-calpodendron_Cr157MBG 4
 Crataegus-calpodendron_Cr183TAD 2
+etc...
 ```
+Ce fichier doit être enregistré dans le répertoire de travail et nommé `Samples-ploidy.txt`. 
 ```bash 
 ## Ajuster les variables ci-dessous de façon appropriée
 SRC=/opt
@@ -125,7 +128,7 @@ bcftools consensus \\
 ## Soumettre les tâches
 ```bash
 ## Déterminer combien d'échantillons à analyser
-NFILES=$(wc -l < samplelist.txt)
+NFILES=$(wc -l < Samples-ploidy.txt)
 
 ## Soumettre ces les tâches de mappage et identification des variants
 sbatch --mail-user=$EMAIL --array=1-$NFILES bwa-gatk.sbatch
