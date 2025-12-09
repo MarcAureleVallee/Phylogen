@@ -1,4 +1,4 @@
-# Ajout de variant dans les séquences consensus en fonction de la ploïdie
+# Ajout de variants dans les séquences consensus en fonction de la ploïdie
 
 Ce code permet d’ajouter des variants sous forme de codes IUPAC dans les séquences consensus, tout en tenant compte de la ploïdie de l’échantillon. Avant d’exécuter ce code, il est nécessaire de disposer d’un fichier `.txt` contenant la ploïdie de chaque échantillon, sous le format : `Nom-échantillon ploïdie`
 
